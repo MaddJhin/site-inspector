@@ -5,6 +5,7 @@ import { StatusBar, StyleSheet, Text, View, Button, Modal, TouchableHighlight } 
 import { Ionicons } from '@expo/vector-icons';
 
 import SiteForm from '../components/SiteForm';
+import ShortForm from '../components/ShortForm';
 
 export default class HomeScreen extends React.Component {
 
@@ -36,9 +37,14 @@ export default class HomeScreen extends React.Component {
           visible={this.state.modalVisible}
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
-          <SiteForm
+          {/* <SiteForm
+            toggleVisible={this.toggleModal}
+          /> */}
+
+          <ShortForm
             toggleVisible={this.toggleModal}
           />
+          
         </Modal>
 
         <View>
