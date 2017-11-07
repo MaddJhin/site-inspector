@@ -12,7 +12,7 @@ const db = SQLite.openDatabase({ name: 'sitedb' });
 
 export default class Sites extends React.Component {
   state = {
-    sites: null,
+    sites: [],
   };
 
   componentDidMount() {
@@ -20,10 +20,10 @@ export default class Sites extends React.Component {
   }
 
   render() {
-    // const { sites } = this.state;
-    // if (sites === null || sites.length === 0) {
-    //   return null;
-    // }
+    const { sites } = this.state;
+    if (sites === null || sites.length === 0) {
+      return null;
+    }
 
     return (
       <View style={{ margin: 5 }}>

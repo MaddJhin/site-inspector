@@ -67,9 +67,9 @@ export default class HomeScreen extends React.Component {
           />
         </Modal>
 
-        {/* <View style={{ flex: 1, backgroundColor: 'gray' }}>
+        <View style={{ flex: 1, backgroundColor: 'gray' }}>
           <Sites/>
-        </View> */}
+        </View>
 
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}

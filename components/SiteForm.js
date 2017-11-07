@@ -17,28 +17,26 @@ const db = SQLite.openDatabase({ name: 'sitedb' });
 
 export default class SiteForm extends React.Component {
 
-  addSite(){
-    console.log("Data Being Added", this.state);
-    db.transaction(
-      tx => {
-        tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [owner, claim]);
-        tx.executeSql('select * from sites', [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
-      },
-      null,
-      this.update
-    );
-
-    this.props.toggleVisible();
-  }
-
   constructor(props) {
     super(props);
     this.state = {
-      owner: '',
+      ownerName: '',
       claimNumber: ''
     };
+  }
+
+  addSite(){
+    console.log("Current State", this.state);
+    // db.transaction(
+    //   tx => {
+    //     tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [owner, claim]);
+    //     tx.executeSql('select * from sites', [], (_, { rows }) =>
+    //       console.log(JSON.stringify(rows))
+    //     );
+    //   },
+    //   null,
+    //   this.update
+    // );
   }
 
   render() {
@@ -49,8 +47,9 @@ export default class SiteForm extends React.Component {
           <TextInput
             style={{ height: 40 }}
             placeholder="Site Owner"
-            onChangeText={(owner) => this.setState({ text })}
+            onChangeText={(ownerName) => this.setState({ ownerName })}
           />
+          <Text>{this.ownerName}</Text>
         </View>
 
         <View>
@@ -59,6 +58,7 @@ export default class SiteForm extends React.Component {
             placeholder="Claim Number"
             onChangeText={(claimNumber) => this.setState({ claimNumber })}
           />
+          <Text>{this.claimNumber}</Text>
         </View>
 
         {/* <Text> Material Type </Text>
