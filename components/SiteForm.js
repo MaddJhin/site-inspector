@@ -6,14 +6,54 @@ import {
   Text,
   View,
   ScrollView,
-  Button
+  Button,
+  TextInput,
+  Picker
 } from 'react-native';
 
 export default class SiteForm extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      owner: '',
+      claimNumber: '',
+      inspectionDate: '',
+      materialType: ''
+    };
+  }
+
   render() {
     return (
       <View keyboardShouldPersistTaps="always" style={styles.container}>
+
+        <View>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Site Owner"
+            onChangeText={(text) => this.setState({ text })}
+          />
+          <Text> {this.state.text} </Text>
+        </View>
+
+        <View>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Claim Number"
+            onChangeText={(claimNumber) => this.setState({ claimNumber })}
+          />
+          <Text> {this.state.claimNumber} </Text>
+        </View>
+
+        <Text> Material Type </Text>
+        <Picker
+          mode="dialog"
+          selectedValue={this.state.materialType}
+          onValueChange={(itemValue, itemIndex) => this.setState({ materialType: itemValue })}>
+          <Picker.Item label="Concrete" value="concrete" />
+          <Picker.Item label="Wood" value="wood" />
+          <Picker.Item label="Mixed" value="mixed" />
+        </Picker>
 
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
@@ -23,6 +63,17 @@ export default class SiteForm extends React.Component {
             color="#228B22"
             accessibilityLabel="Add new site" />
         </View>
+
+        <View style={styles.btnCancel}>
+          {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
+          <Button
+            onPress={this.props.toggleVisible}
+            title="Cancel"
+            color="#228B22"
+            accessibilityLabel="Cancel New Site" />
+        </View>
+
+
       </View>
     )
   }
@@ -31,13 +82,16 @@ export default class SiteForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    position: 'relative'
   },
   btnAdd: {
     position: 'absolute',
     right: 10,
+    bottom: 10
+  },
+  btnCancel: {
+    position: 'absolute',
+    left: 10,
     bottom: 10
   }
 });

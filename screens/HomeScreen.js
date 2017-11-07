@@ -37,14 +37,10 @@ export default class HomeScreen extends React.Component {
           visible={this.state.modalVisible}
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
-          {/* <SiteForm
-            toggleVisible={this.toggleModal}
-          /> */}
-
-          <ShortForm
+          <SiteForm
             toggleVisible={this.toggleModal}
           />
-          
+
         </Modal>
 
         <View>
