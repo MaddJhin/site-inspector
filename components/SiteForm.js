@@ -13,6 +13,11 @@ import {
 
 export default class SiteForm extends React.Component {
 
+  addSite(){
+    console.log("Data Being Added", this.state);
+    this.props.toggleVisible();
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +38,6 @@ export default class SiteForm extends React.Component {
             placeholder="Site Owner"
             onChangeText={(text) => this.setState({ text })}
           />
-          <Text> {this.state.text} </Text>
         </View>
 
         <View>
@@ -42,7 +46,6 @@ export default class SiteForm extends React.Component {
             placeholder="Claim Number"
             onChangeText={(claimNumber) => this.setState({ claimNumber })}
           />
-          <Text> {this.state.claimNumber} </Text>
         </View>
 
         <Text> Material Type </Text>
@@ -58,7 +61,7 @@ export default class SiteForm extends React.Component {
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
           <Button
-            onPress={this.props.toggleVisible}
+            onPress={this.addSite.bind(this)}
             title="Confirm"
             color="#228B22"
             accessibilityLabel="Add new site" />
