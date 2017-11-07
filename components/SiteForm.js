@@ -27,16 +27,16 @@ export default class SiteForm extends React.Component {
 
   addSite(){
     console.log("Current State", this.state);
-    // db.transaction(
-    //   tx => {
-    //     tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [owner, claim]);
-    //     tx.executeSql('select * from sites', [], (_, { rows }) =>
-    //       console.log(JSON.stringify(rows))
-    //     );
-    //   },
-    //   null,
-    //   this.update
-    // );
+    db.transaction(
+      tx => {
+        tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [this.ownerName, this.claimNumber]);
+        tx.executeSql('select * from sites', [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      this.update
+    );
   }
 
   render() {

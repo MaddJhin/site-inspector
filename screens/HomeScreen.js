@@ -68,7 +68,9 @@ export default class HomeScreen extends React.Component {
         </Modal>
 
         <View style={{ flex: 1, backgroundColor: 'gray' }}>
-          <Sites/>
+          <Sites
+            ref={place => (this.place = place)}
+          />
         </View>
 
         <View style={styles.btnAdd}>
@@ -80,6 +82,10 @@ export default class HomeScreen extends React.Component {
         </View>
       </View>
     );
+  }
+
+  update = () => {
+    this.place && this.place.update();
   }
 }
 
