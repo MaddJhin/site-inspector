@@ -1,4 +1,5 @@
 import React from 'react';
+import Expo, { SQLite } from 'expo';
 
 import {
   AppRegistry,
@@ -11,10 +12,24 @@ import {
   Picker
 } from 'react-native';
 
+
+const db = SQLite.openDatabase({ name: 'sitedb' });
+
 export default class SiteForm extends React.Component {
 
   addSite(){
     console.log("Data Being Added", this.state);
+    db.transaction(
+      tx => {
+        tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [owner, claim]);
+        tx.executeSql('select * from sites', [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      null,
+      this.update
+    );
+
     this.props.toggleVisible();
   }
 
@@ -22,9 +37,7 @@ export default class SiteForm extends React.Component {
     super(props);
     this.state = {
       owner: '',
-      claimNumber: '',
-      inspectionDate: '',
-      materialType: ''
+      claimNumber: ''
     };
   }
 
@@ -36,7 +49,7 @@ export default class SiteForm extends React.Component {
           <TextInput
             style={{ height: 40 }}
             placeholder="Site Owner"
-            onChangeText={(text) => this.setState({ text })}
+            onChangeText={(owner) => this.setState({ text })}
           />
         </View>
 
@@ -48,7 +61,7 @@ export default class SiteForm extends React.Component {
           />
         </View>
 
-        <Text> Material Type </Text>
+        {/* <Text> Material Type </Text>
         <Picker
           mode="dialog"
           selectedValue={this.state.materialType}
@@ -56,7 +69,7 @@ export default class SiteForm extends React.Component {
           <Picker.Item label="Concrete" value="concrete" />
           <Picker.Item label="Wood" value="wood" />
           <Picker.Item label="Mixed" value="mixed" />
-        </Picker>
+        </Picker> */}
 
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}

@@ -1,16 +1,35 @@
 import React from 'react';
-import { StatusBar, StyleSheet, Text, View, Button, Modal, TouchableHighlight } from 'react-native';
+import Expo, { SQLite } from 'expo';
+
+import { 
+  StatusBar, 
+  StyleSheet, 
+  Text, View, 
+  Button, 
+  Modal, 
+  TouchableHighlight 
+} from 'react-native';
 
 // Import Icon Library
 import { Ionicons } from '@expo/vector-icons';
-
 import SiteForm from '../components/SiteForm';
-import ShortForm from '../components/ShortForm';
+import Sites from '../components/Sites';
+
+const db = SQLite.openDatabase({ name: 'sitedb' });
 
 export default class HomeScreen extends React.Component {
 
   state = {
     modalVisible: false,
+    items: null,    
+  }
+
+  componentDidMount() {
+    db.transaction(tx => {
+      tx.executeSql(
+        'create table if not exists sites (id integer primary key not null, ownerName text, claimNumber int, inspectionDate date, materialType text);'
+      );
+    });
   }
 
   _setModalVisibility = (visible) => {
@@ -27,6 +46,12 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
+
+    // const { items } = this.state;
+    // if (items === null || items.length === 0) {
+    //   return null;
+    // } 
+
     return (
       <View style={styles.container}>
 
@@ -40,16 +65,11 @@ export default class HomeScreen extends React.Component {
           <SiteForm
             toggleVisible={this.toggleModal.bind(this)}
           />
-
         </Modal>
 
-        <View>
-          <Text>Hello, Chat App!</Text>
-          <Button
-            onPress={() => navigate('Chat')}
-            title="Chat with Lucy"
-          />
-        </View>
+        {/* <View style={{ flex: 1, backgroundColor: 'gray' }}>
+          <Sites/>
+        </View> */}
 
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
