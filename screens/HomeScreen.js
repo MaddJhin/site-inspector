@@ -1,13 +1,15 @@
 import React from 'react';
 import Expo, { SQLite } from 'expo';
 
-import { 
-  StatusBar, 
-  StyleSheet, 
-  Text, View, 
-  Button, 
-  Modal, 
-  TouchableHighlight 
+import {
+  StatusBar,
+  Platform,
+  StyleSheet,
+  Text, View,
+  Button,
+  ScrollView,
+  Modal,
+  TouchableHighlight
 } from 'react-native';
 
 // Import Icon Library
@@ -21,11 +23,11 @@ export default class HomeScreen extends React.Component {
 
   state = {
     modalVisible: false,
-    items: null,    
+    items: null,
   }
 
   componentDidMount() {
-    if(!db) {
+    if (!db) {
       // Test your DB was created
       console.log('Your DB was not created this time');
     }
@@ -34,20 +36,20 @@ export default class HomeScreen extends React.Component {
       tx.executeSql(
         'CREATE TABLE IF NOT EXISTS sites (id integer primary key not null, ownerName text, claimNumber int);'
       ),
-      (err) => {console.log("Error", err)},
-      () => {console.log("Success Creating sites table")}
+        (err) => { console.log("Error", err) },
+        () => { console.log("Success Creating sites table") }
     });
   }
 
   _setModalVisibility = (visible) => {
-    this.setState({modalVisible: visible});
+    this.setState({ modalVisible: visible });
   };
 
-  toggleModal = () =>{
+  toggleModal = () => {
     this._setModalVisibility(!this.state.modalVisible);
   }
 
-  _deleteSites = () =>{
+  _deleteSites = () => {
     db.transaction(
       tx => {
         tx.executeSql(`delete from sites`);
@@ -57,7 +59,7 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  _dbOperations = () =>{
+  _dbOperations = () => {
     // db.transaction(
     //   tx => {
     //     tx.executeSql('show table sites', [], (_, { rows }) =>
@@ -98,35 +100,39 @@ export default class HomeScreen extends React.Component {
           />
         </Modal>
 
-        <View>
-          <Sites style={styles.sites}
-            ref={place => (this.place = place)}
-          />
+        <View style={{flex: 1}}>
+          <ScrollView>
+            <Sites style={styles.sites}
+              ref={place => (this.place = place)}
+            />
+          </ScrollView>
         </View>
 
-        <View style={styles.btnAdd}>
-          {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
-          <Button onPress={this.toggleModal}
-            title="Add Site"
-            color="#228B22"
-            accessibilityLabel="Input new site information" />
-        </View>
+        <View style={styles.tabBarInfoContainer}>
+          <View>
+            {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
+            <Button onPress={this.toggleModal}
+              title="Add Site"
+              color="#228B22"
+              accessibilityLabel="Input new site information" />
+          </View>
 
-        <View style={styles.btnDelete}>
-          {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
-          <Button 
-            onPress={this._deleteSites}
-            title="Delete Sites"
-            color="#228B22"
-            accessibilityLabel="Input new site information" />
-        </View>
-        
-        <View style={styles.btnNuke}>
-          <Button 
-            onPress={this._dbOperations}
-            title="Temp"
-            color="#228B22"
-            accessibilityLabel="Input new site information" />
+          <View>
+            {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
+            <Button
+              onPress={this._deleteSites}
+              title="Delete Sites"
+              color="#228B22"
+              accessibilityLabel="Input new site information" />
+          </View>
+
+          <View>
+            <Button
+              onPress={this._dbOperations}
+              title="Temp"
+              color="#228B22"
+              accessibilityLabel="Input new site information" />
+          </View>
         </View>
       </View>
     );
@@ -158,8 +164,27 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     bottom: 10
   },
-  sites:{
+  sites: {
     flex: 1,
     alignSelf: 'stretch',
+  },
+  tabBarInfoContainer: {
+    ...Platform.select({
+      ios: {
+        shadowColor: 'black',
+        shadowOffset: { height: -3 },
+        shadowOpacity: 0.1,
+        shadowRadius: 3,
+      },
+      android: {
+        elevation: 20,
+      },
+    }),
+    backgroundColor: '#fbfbfb',
+    paddingVertical: 20,
+    flexWrap: 'wrap',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-around'
   }
 });

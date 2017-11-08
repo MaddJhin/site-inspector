@@ -39,7 +39,7 @@ export default class SiteForm extends React.Component {
       this.props.updateSites.bind(this)
     );
     console.log("Closing Modal");
-    this.props.toggleVisible;
+    this.props.toggleVisible();
   }
 
   render() {
