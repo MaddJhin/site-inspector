@@ -25,6 +25,11 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+    if(!db) {
+      // Test your DB was created
+      console.log('Your DB was not created this time');
+    }
+
     db.transaction(tx => {
       tx.executeSql(
         'CREATE TABLE IF NOT EXISTS sites (id integer primary key not null, ownerName text, claimNumber int);'
@@ -52,14 +57,17 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  _deleteTable = () =>{
-    db.transaction(
-      tx => {
-        tx.executeSql(`drop table sites`);
-      },
-      null,
-      this.update
-    )
+  _dbOperations = () =>{
+    // db.transaction(
+    //   tx => {
+    //     tx.executeSql('show table sites', [], (_, { rows }) =>
+    //       console.log(rows)
+    //     );
+    //   },
+    //   null,
+    //   null
+    // )
+    console.log(db);
   }
 
   static navigationOptions = {
@@ -113,13 +121,13 @@ export default class HomeScreen extends React.Component {
             accessibilityLabel="Input new site information" />
         </View>
         
-        {/* <View style={styles.btnNuke}>
+        <View style={styles.btnNuke}>
           <Button 
-            onPress={this._deleteSites}
-            title="Delete Data Table"
+            onPress={this._dbOperations}
+            title="Temp"
             color="#228B22"
             accessibilityLabel="Input new site information" />
-        </View> */}
+        </View>
       </View>
     );
   }
@@ -147,7 +155,7 @@ const styles = StyleSheet.create({
   },
   btnNuke: {
     position: 'absolute',
-    alignItems: 'center',
+    alignSelf: 'center',
     bottom: 10
   },
   sites:{
