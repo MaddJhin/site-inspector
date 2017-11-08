@@ -59,17 +59,17 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  _dbOperations = () => {
-    // db.transaction(
-    //   tx => {
-    //     tx.executeSql('show table sites', [], (_, { rows }) =>
-    //       console.log(rows)
-    //     );
-    //   },
-    //   null,
-    //   null
-    // )
-    console.log(db);
+  _dbOperations (){
+    console.log("Starting DB Operation");
+
+    db.transaction(tx => {
+      tx.executeSql(
+        'DROP TABLE sites;'
+      ),
+        (err) => { console.log("Error", err) },
+        this.update
+    });
+    console.log("DB Operation Done");
   }
 
   static navigationOptions = {
@@ -128,7 +128,7 @@ export default class HomeScreen extends React.Component {
 
           <View>
             <Button
-              onPress={this._dbOperations}
+              onPress={this._dbOperations.bind(this)}
               title="Temp"
               color="#228B22"
               accessibilityLabel="Input new site information" />
