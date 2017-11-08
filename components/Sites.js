@@ -1,11 +1,11 @@
 import Expo, { SQLite } from 'expo';
 import React from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  TextInput, 
-  TouchableOpacity 
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity
 } from 'react-native';
 
 const db = SQLite.openDatabase({ name: 'sitedb' });
@@ -44,17 +44,21 @@ export default class Sites extends React.Component {
         {sites.map(({ id, ownerName, claimNumber }) => (
           <TouchableOpacity
             key={id}
-            onPress={this.update.bind(this)}
-            style={{
-              padding: 5,
-              backgroundColor: 'white',
-              borderColor: 'black',
-              borderWidth: 1,
-            }}>
-            <Text>id: {id}, Owner: {ownerName}, claim: {claimNumber}</Text>
+            onPress={() => console.log("Selected Site with ID " + id)}
+            style={styles.site}>
+            <Text>Owner: {ownerName}, claim: {claimNumber}</Text>
           </TouchableOpacity>
         ))}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  site: {
+    padding: 5,
+    backgroundColor: 'white',
+    borderColor: 'black',
+    borderWidth: 1,
+  }
+})

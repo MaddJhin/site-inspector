@@ -30,12 +30,12 @@ export default class SiteForm extends React.Component {
     console.log("Current State", this.state);
     db.transaction(
       tx => {
-        tx.executeSql('insert into sites (ownerName, claimNumber) values (?, ?)', [this.ownerName, this.claimNumber])
-        // tx.executeSql('select * from sites', [], (_, { rows }) =>
-        //   console.log(JSON.stringify(rows))
-        // );
+        tx.executeSql('INSERT INTO sites (ownerName, claimNumber) VALUES (?, ?)', [this.state.ownerName, this.state.claimNumber])
+        tx.executeSql('select * from sites', [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
       },
-      null,
+      (err) => {console.log("Addition Failed Message", err)},
       this.props.updateSites.bind(this)
     );
     console.log("Closing Modal");

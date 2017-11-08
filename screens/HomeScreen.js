@@ -27,8 +27,10 @@ export default class HomeScreen extends React.Component {
   componentDidMount() {
     db.transaction(tx => {
       tx.executeSql(
-        'create table if not exists sites (id integer primary key not null, ownerName text, claimNumber int, inspectionDate date, materialType text);'
-      );
+        'CREATE TABLE IF NOT EXISTS sites (id integer primary key not null, ownerName text, claimNumber int);'
+      ),
+      (err) => {console.log("Error", err)},
+      () => {console.log("Success Creating sites table")}
     });
   }
 
@@ -44,6 +46,16 @@ export default class HomeScreen extends React.Component {
     db.transaction(
       tx => {
         tx.executeSql(`delete from sites`);
+      },
+      null,
+      this.update
+    )
+  }
+
+  _deleteTable = () =>{
+    db.transaction(
+      tx => {
+        tx.executeSql(`drop table sites`);
       },
       null,
       this.update
@@ -78,8 +90,8 @@ export default class HomeScreen extends React.Component {
           />
         </Modal>
 
-        <View style={{ flex: 1, backgroundColor: 'gray' }}>
-          <Sites
+        <View>
+          <Sites style={styles.sites}
             ref={place => (this.place = place)}
           />
         </View>
@@ -100,6 +112,14 @@ export default class HomeScreen extends React.Component {
             color="#228B22"
             accessibilityLabel="Input new site information" />
         </View>
+        
+        {/* <View style={styles.btnNuke}>
+          <Button 
+            onPress={this._deleteSites}
+            title="Delete Data Table"
+            color="#228B22"
+            accessibilityLabel="Input new site information" />
+        </View> */}
       </View>
     );
   }
@@ -114,8 +134,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   btnAdd: {
     position: 'absolute',
@@ -126,5 +144,14 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 10,
     bottom: 10
+  },
+  btnNuke: {
+    position: 'absolute',
+    alignItems: 'center',
+    bottom: 10
+  },
+  sites:{
+    flex: 1,
+    alignSelf: 'stretch',
   }
 });
