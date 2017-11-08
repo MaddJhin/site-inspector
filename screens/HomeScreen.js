@@ -40,6 +40,16 @@ export default class HomeScreen extends React.Component {
     this._setModalVisibility(!this.state.modalVisible);
   }
 
+  _deleteSites = () =>{
+    db.transaction(
+      tx => {
+        tx.executeSql(`delete from sites`);
+      },
+      null,
+      this.update
+    )
+  }
+
   static navigationOptions = {
     title: 'Welcome',
   };
@@ -63,7 +73,8 @@ export default class HomeScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <SiteForm
-            toggleVisible={this.toggleModal.bind(this)}
+            toggleVisible={this.toggleModal}
+            updateSites={this.update.bind(this)}
           />
         </Modal>
 
@@ -80,11 +91,21 @@ export default class HomeScreen extends React.Component {
             color="#228B22"
             accessibilityLabel="Input new site information" />
         </View>
+
+        <View style={styles.btnDelete}>
+          {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
+          <Button 
+            onPress={this._deleteSites}
+            title="Delete Sites"
+            color="#228B22"
+            accessibilityLabel="Input new site information" />
+        </View>
       </View>
     );
   }
 
   update = () => {
+    console.log("Homescreen updating")
     this.place && this.place.update();
   }
 }
@@ -99,6 +120,11 @@ const styles = StyleSheet.create({
   btnAdd: {
     position: 'absolute',
     right: 10,
+    bottom: 10
+  },
+  btnDelete: {
+    position: 'absolute',
+    left: 10,
     bottom: 10
   }
 });
