@@ -26,7 +26,7 @@ export default class SiteForm extends React.Component {
 
   }
 
-  addSite(){
+  addSite() {
     console.log("Current State", this.state);
     db.transaction(
       tx => {
@@ -35,7 +35,7 @@ export default class SiteForm extends React.Component {
           console.log(JSON.stringify(rows))
         );
       },
-      (err) => {console.log("Addition Failed Message", err)},
+      (err) => { console.log("Addition Failed Message", err) },
       this.props.updateSites.bind(this)
     );
     console.log("Closing Modal");
@@ -46,33 +46,72 @@ export default class SiteForm extends React.Component {
     return (
       <View keyboardShouldPersistTaps="always" style={styles.container}>
 
-        <View>
+        <View style={styles.inputGroup}>
           <TextInput
             style={{ height: 40 }}
             placeholder="Site Owner"
             onChangeText={(ownerName) => this.setState({ ownerName })}
           />
-          <Text>{this.ownerName}</Text>
         </View>
 
-        <View>
+        <View style={styles.inputGroup}>
           <TextInput
             style={{ height: 40 }}
             placeholder="Claim Number"
             onChangeText={(claimNumber) => this.setState({ claimNumber })}
           />
-          <Text>{this.claimNumber}</Text>
         </View>
 
-        {/* <Text> Material Type </Text>
-        <Picker
-          mode="dialog"
-          selectedValue={this.state.materialType}
-          onValueChange={(itemValue, itemIndex) => this.setState({ materialType: itemValue })}>
-          <Picker.Item label="Concrete" value="concrete" />
-          <Picker.Item label="Wood" value="wood" />
-          <Picker.Item label="Mixed" value="mixed" />
-        </Picker> */}
+        <View style={styles.inputGroup}>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Policy Number"
+            onChangeText={(policyNumber) => this.setState({ policyNumber })}
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <Text>Address</Text>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Address One"
+            onChangeText={(addressOne) => this.setState({ addressOne })}
+          />
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Address Two"
+            onChangeText={(addressTwo) => this.setState({ addressTwo })}
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Contact Phone Number"
+            onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+          />
+        </View>
+
+        <View style={styles.inputGroup}>
+          <TextInput
+            style={{ height: 40 }}
+            placeholder="Site Measurements"
+            onChangeText={(squareFeet) => this.setState({ squareFeet })}
+          />
+        </View>
+
+
+        <View style={styles.inputGroup}>
+          <Text> Material Type </Text>
+          <Picker
+            mode="dialog"
+            selectedValue={this.state.materialType}
+            onValueChange={(itemValue, itemIndex) => this.setState({ materialType: itemValue })}>
+            <Picker.Item label="Concrete" value="concrete" />
+            <Picker.Item label="Wood" value="wood" />
+            <Picker.Item label="Mixed" value="mixed" />
+          </Picker>
+        </View>
 
         <View style={styles.btnAdd}>
           {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
@@ -101,7 +140,7 @@ export default class SiteForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'relative'
+    position: 'relative',
   },
   btnAdd: {
     position: 'absolute',
@@ -112,5 +151,15 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 10,
     bottom: 10
+  },
+  inputGroup: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  inputTitle: {
+
+  },
+  inputField: {
+
   }
 });

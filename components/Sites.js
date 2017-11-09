@@ -34,6 +34,8 @@ export default class Sites extends React.Component {
   }
 
   render() {
+    const { navigate } = this.props.navigation;    
+    
     const { sites } = this.state;
     if (sites === null || sites.length === 0) {
       return null;
@@ -44,7 +46,12 @@ export default class Sites extends React.Component {
         {sites.map(({ id, ownerName, claimNumber }) => (
           <TouchableOpacity
             key={id}
-            onPress={() => console.log("Selected Site with ID " + id)}
+            onPress={() => navigate("Site", 
+              { 
+                siteID: id,
+                owner: ownerName,
+                claimNumber: claimNumber
+              })}
             style={styles.site}>
             <Text>Owner: {ownerName}, claim: {claimNumber}</Text>
           </TouchableOpacity>

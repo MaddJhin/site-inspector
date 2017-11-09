@@ -26,20 +26,68 @@ export default class HomeScreen extends React.Component {
     items: null,
   }
 
+  static navigationOptions = {
+    title: 'Welcome',
+  };
+
   componentDidMount() {
     if (!db) {
       // Test your DB was created
       console.log('Your DB was not created this time');
     }
+    this.makeTables;
+  }
 
-    db.transaction(tx => {
-      tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS sites (id integer primary key not null, ownerName text, claimNumber int);'
-      ),
-        (err) => { console.log("Error", err) },
-        () => { console.log("Success Creating sites table") }
+  makeTables = () => {
+    db.transaction( tx => {
+      tx.executeSql('CREATE TABLE IF NOT EXISTS `sitedb`.`sites` ( \
+        `id` INT NOT NULL AUTO_INCREMENT, \
+        `nombreAsegurado` VARCHAR(45) NOT NULL, \
+        `personaEntrevistada` VARCHAR(45) NOT NULL, \
+        `numeroPoliza` VARCHAR(45) NOT NULL, \
+        `numeroReclamacion` INT NOT NULL, \
+        `numeroContacto` INT NOT NULL, \
+        `fechaInspeccion` VARCHAR(45) NOT NULL, \
+        `dirreccionPropiedad` VARCHAR(45) NOT NULL, \
+        `tipoPropiedad` VARCHAR(45) NOT NULL, \
+        `tipoMaterial` VARCHAR(45) NOT NULL, \
+        `numeroHabitaciones` INT NOT NULL, \
+        `numeroBanos` INT NOT NULL, \
+        `sala` TINYINT NOT NULL, \
+        `comedor` TINYINT NOT NULL, \
+        `cocina` TINYINT NOT NULL, \
+        `terraza` TINYINT NOT NULL, \
+        `piesCuadrados` INT NOT NULL, \
+        `photoRef` VARCHAR(225) NOT NULL, \
+        PRIMARY KEY (`id`))'),
+      errorCallback,
+      successCallback
+    });
+
+    db.transaction( tx => {
+      tx.executeSql('CREATE TABLE IF NOT EXISTS `sitedb`.`claims` ( \
+        `id` INT NOT NULL AUTO_INCREMENT, \
+        `descripcionDanos` VARCHAR(225) NOT NULL, \
+        `fotoRef` VARCHAR(225) NOT NULL, \
+        `unidadDanos` VARCHAR(45) NOT NULL, \
+        `cantidadDanos` INT NOT NULL, \
+        `costoUnidad` INT NULL, \
+        `danoCubierto` TINYINT NOT NULL, \
+        `sites_id` INT NOT NULL, \
+        PRIMARY KEY (`id`, `sites_id`), \
+        INDEX `fk_claims_sites_idx` (`sites_id` ASC), \
+        CONSTRAINT `fk_claims_sites` \
+          FOREIGN KEY (`sites_id`) \
+          REFERENCES `mydb`.`sites` (`id`) \
+          ON DELETE NO ACTION \
+          ON UPDATE NO ACTION)'
+        ),
+      errorCallback,
+      successCallback
     });
   }
+
+
 
   _setModalVisibility = (visible) => {
     this.setState({ modalVisible: visible });
@@ -59,22 +107,26 @@ export default class HomeScreen extends React.Component {
     )
   }
 
-  _dbOperations (){
+  _dbOperations() {
     console.log("Starting DB Operation");
 
     db.transaction(tx => {
       tx.executeSql(
-        'CREATE TABLE sites (id integer primary key not null, ownerName text, claimNumber int);'
+        'DROP TABLE sites;'
       ),
-      null,
-      this.update
+        errorCallback,
+        successCallback
     });
     console.log("DB Operation Done");
   }
 
-  static navigationOptions = {
-    title: 'Welcome',
-  };
+  successCallback(err) {
+    console.log("Transaction Error", err)
+  }
+
+  errorCallback() {
+    console.log("Transaction Success")
+  }
 
   render() {
     const { navigate } = this.props.navigation;
@@ -100,9 +152,10 @@ export default class HomeScreen extends React.Component {
           />
         </Modal>
 
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <ScrollView>
             <Sites style={styles.sites}
+              navigation={this.props.navigation}
               ref={place => (this.place = place)}
             />
           </ScrollView>

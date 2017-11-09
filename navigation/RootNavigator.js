@@ -2,11 +2,11 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
-import ChatScreen from '../screens/ChatScreen';
+import SiteScreen from '../screens/SiteScreen';
 
 const RootStackNavigator = StackNavigator({
   Home: { screen: HomeScreen },
-  Chat: { screen: ChatScreen },  
+  Site: { screen: SiteScreen },  
 });
 
 export default class RootNavigator extends React.Component {

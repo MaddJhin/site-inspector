@@ -2,13 +2,13 @@ import React from 'react';
 import { StatusBar, StyleSheet, Text, View, Button } from 'react-native';
 
 export default class ChatScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Chat with Lucy',
-  };
+  static navigationOptions = ({ navigation }) => ({
+        title: `Claim: ${navigation.state.params.claimNumber}`,
+  });
   render() {
     return (
       <View>
-        <Text>Chat with Lucy</Text>
+        <Text>Claims go Here</Text>
       </View>
     );
   }
