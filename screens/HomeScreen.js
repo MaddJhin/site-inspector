@@ -64,10 +64,10 @@ export default class HomeScreen extends React.Component {
 
     db.transaction(tx => {
       tx.executeSql(
-        'DROP TABLE sites;'
+        'CREATE TABLE sites (id integer primary key not null, ownerName text, claimNumber int);'
       ),
-        (err) => { console.log("Error", err) },
-        this.update
+      null,
+      this.update
     });
     console.log("DB Operation Done");
   }
