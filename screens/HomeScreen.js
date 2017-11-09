@@ -22,8 +22,7 @@ const db = SQLite.openDatabase({ name: 'sitedb' });
 export default class HomeScreen extends React.Component {
 
   state = {
-    modalVisible: false,
-    items: null,
+    modalVisible: false
   }
 
   static navigationOptions = {
@@ -130,11 +129,6 @@ export default class HomeScreen extends React.Component {
 
   render() {
     const { navigate } = this.props.navigation;
-
-    // const { items } = this.state;
-    // if (items === null || items.length === 0) {
-    //   return null;
-    // } 
 
     return (
       <View style={styles.container}>
