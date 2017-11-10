@@ -42,17 +42,17 @@ export default class Sites extends React.Component {
 
     return (
       <View style={{ margin: 5 }}>
-        {sites.map(({ id, ownerName, claimNumber }) => (
+        {sites.map(({ id, nombreAsegurado, numeroReclamacion }) => (
           <TouchableOpacity
             key={id}
             onPress={() => navigate("Site", 
               { 
                 siteID: id,
-                owner: ownerName,
-                claimNumber: claimNumber
+                owner: nombreAsegurado,
+                claimNumber: numeroReclamacion
               })}
             style={styles.site}>
-            <Text>Owner: {ownerName}, claim: {claimNumber}</Text>
+            <Text>Owner: {nombreAsegurado}, claim: {numeroReclamacion}</Text>
           </TouchableOpacity>
         ))}
       </View>

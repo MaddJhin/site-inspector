@@ -158,7 +158,7 @@ export default class HomeScreen extends React.Component {
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
             <Button
-              onPress={this._dbOperations}
+              onPress={this._deleteSites}
               title="Delete Sites"
               color="#228B22"
               accessibilityLabel="Input new site information" />

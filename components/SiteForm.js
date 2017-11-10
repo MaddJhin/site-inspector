@@ -29,7 +29,7 @@ export default class SiteForm extends React.Component {
     console.log("Site Form DB", this.state.db);
     this.state.db.transaction(
       tx => {
-        tx.executeSql('INSERT INTO places (nombreAsegurado, numeroPoliza, numeroReclamacion) VALUES (?, ?, ?)', [this.state.ownerName, this.state.claimNumber])
+        tx.executeSql('INSERT INTO places (nombreAsegurado, numeroPoliza, numeroReclamacion) VALUES (?, ?, ?)', [this.state.nombreAsegurado, this.state.numeroPoliza, this.state.numeroReclamacion])
         tx.executeSql('select * from places', [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
