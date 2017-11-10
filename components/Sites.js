@@ -8,10 +8,9 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-const db = SQLite.openDatabase({ name: 'site.db' });
-
 export default class Sites extends React.Component {
   state = {
+    db: this.props.db,
     sites: [],
   };
 
@@ -22,7 +21,7 @@ export default class Sites extends React.Component {
   update() {
     console.log("Starting Update");
 
-    db.transaction(tx => {
+    this.state.db.transaction(tx => {
       tx.executeSql(
         `select * from sites;`,
         [],

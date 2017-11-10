@@ -9,8 +9,21 @@ const RootStackNavigator = StackNavigator({
   Site: { screen: SiteScreen },  
 });
 
+
 export default class RootNavigator extends React.Component {
+
+  // componentDidMount(){
+  //   // console.log("Navigation DB", this.props);
+  // }
+
+  // constructor() {
+  //   super();
+  //   this.state = {
+  //     db: db
+  //   }
+  // }  
+
   render() {
-    return <RootStackNavigator />;
+    return <RootStackNavigator screenProps={this.props.db}/>;
   }
 };

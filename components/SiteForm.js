@@ -12,9 +12,6 @@ import {
   Picker
 } from 'react-native';
 
-
-const db = SQLite.openDatabase({ name: 'site.db' });
-
 export default class SiteForm extends React.Component {
 
   constructor(props) {
@@ -22,14 +19,15 @@ export default class SiteForm extends React.Component {
     this.state = {
       nombreAsegurado: '',
       numeroPoliza: '',
-      numeroReclamacion: ''
+      numeroReclamacion: '',
+      db: this.props.db
     };
 
   }
 
   addSite() {
     console.log("Current State", this.state);
-    db.transaction(
+    this.state.db.transaction(
       tx => {
         tx.executeSql('INSERT INTO places (nombreAsegurado, numeroPoliza, numeroReclamacion) VALUES (?, ?, ?)', [this.state.ownerName, this.state.claimNumber])
         tx.executeSql('select * from sites', [], (_, { rows }) =>
