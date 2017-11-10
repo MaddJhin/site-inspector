@@ -13,16 +13,22 @@ import {
 } from 'react-native';
 
 import ClaimForm from '../components/ClaimForm';
+import Claims from '../components/Claims';
 
 export default class SiteScreen extends React.Component {
 
   state = {
-    modalVisible: false
+    modalVisible: false,
+    siteID: this.props.navigation.state.params.siteID
   }
 
   static navigationOptions = ({ navigation }) => ({
         title: `Claim: ${navigation.state.params.claimNumber}`,
   });
+
+  componentDidMount(){
+    console.log("State for Site: ", this.state)
+  }
 
   _setModalVisibility = (visible) => {
     this.setState({ modalVisible: visible });
@@ -30,6 +36,16 @@ export default class SiteScreen extends React.Component {
 
   toggleModal = () => {
     this._setModalVisibility(!this.state.modalVisible);
+  }
+
+  _deleteClaims = () => {
+    db.transaction(
+      tx => {
+        tx.executeSql(`delete from claims where site_id = ?`),[this.state.siteID];
+      },
+      null,
+      this.update
+    )
   }
 
   render() {
@@ -56,14 +72,15 @@ export default class SiteScreen extends React.Component {
           />
         </Modal>
 
-        {/* <View style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <ScrollView>
             <Claims style={styles.claims}
               navigation={this.props.navigation}
-              ref={place => (this.place = place)}
+              ref={item => (this.item = item)}
+              siteID={this.state.siteID}
             />
           </ScrollView>
-        </View> */}
+        </View>
 
         <View style={styles.tabBarInfoContainer}>
           <View>
@@ -89,7 +106,7 @@ export default class SiteScreen extends React.Component {
 
   update = () => {
     console.log("Homescreen updating")
-    this.place && this.place.update();
+    this.item && this.item.update();
   }
 }
 

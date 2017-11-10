@@ -13,15 +13,16 @@ import {
 } from 'react-native';
 
 
-const db = SQLite.openDatabase({ name: 'sitedb' });
+const db = SQLite.openDatabase({ name: 'site.db' });
 
 export default class SiteForm extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      ownerName: '',
-      claimNumber: ''
+      nombreAsegurado: '',
+      numeroPoliza: '',
+      numeroReclamacion: ''
     };
 
   }
@@ -30,7 +31,7 @@ export default class SiteForm extends React.Component {
     console.log("Current State", this.state);
     db.transaction(
       tx => {
-        tx.executeSql('INSERT INTO sites (ownerName, claimNumber) VALUES (?, ?)', [this.state.ownerName, this.state.claimNumber])
+        tx.executeSql('INSERT INTO places (nombreAsegurado, numeroPoliza, numeroReclamacion) VALUES (?, ?, ?)', [this.state.ownerName, this.state.claimNumber])
         tx.executeSql('select * from sites', [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
@@ -49,24 +50,24 @@ export default class SiteForm extends React.Component {
         <View style={styles.inputGroup}>
           <TextInput
             style={{ height: 40 }}
-            placeholder="Site Owner"
-            onChangeText={(ownerName) => this.setState({ ownerName })}
+            placeholder="Nombre Asegurado"
+            onChangeText={(nombreAsegurado) => this.setState({ nombreAsegurado })}
           />
         </View>
 
         <View style={styles.inputGroup}>
           <TextInput
             style={{ height: 40 }}
-            placeholder="Claim Number"
-            onChangeText={(claimNumber) => this.setState({ claimNumber })}
+            placeholder="Numero de Poliza"
+            onChangeText={(numeroPoliza) => this.setState({ numeroPoliza })}
           />
         </View>
 
         <View style={styles.inputGroup}>
           <TextInput
             style={{ height: 40 }}
-            placeholder="Policy Number"
-            onChangeText={(policyNumber) => this.setState({ policyNumber })}
+            placeholder="Numero de Reclamacion"
+            onChangeText={(numeroReclamacion) => this.setState({ numeroReclamacion })}
           />
         </View>
 

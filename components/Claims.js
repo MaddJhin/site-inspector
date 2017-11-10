@@ -12,7 +12,8 @@ const db = SQLite.openDatabase({ name: 'site.db' });
 
 export default class Sites extends React.Component {
   state = {
-    sites: [],
+    siteID: this.props.siteID,
+    claims: [],
   };
 
   componentDidMount() {
@@ -24,8 +25,8 @@ export default class Sites extends React.Component {
 
     db.transaction(tx => {
       tx.executeSql(
-        `select * from sites;`,
-        [],
+        `select * from claims where site_id = ?;`,
+        [this.state.siteID],
         (_, { rows: { _array } }) => this.setState({ sites: _array })
       );
     });
@@ -36,25 +37,15 @@ export default class Sites extends React.Component {
   render() {
     const { navigate } = this.props.navigation;    
     
-    const { sites } = this.state;
-    if (sites === null || sites.length === 0) {
+    const { claims } = this.state;
+    if (claims === null || claims.length === 0) {
       return null;
     }
 
     return (
       <View style={{ margin: 5 }}>
-        {sites.map(({ id, ownerName, claimNumber }) => (
-          <TouchableOpacity
-            key={id}
-            onPress={() => navigate("Site", 
-              { 
-                siteID: id,
-                owner: ownerName,
-                claimNumber: claimNumber
-              })}
-            style={styles.site}>
-            <Text>Owner: {ownerName}, claim: {claimNumber}</Text>
-          </TouchableOpacity>
+        {claims.map(({ id, descripcionDanos}) => ( 
+          <Text>Descripcion: {descripcionDanos}</Text>
         ))}
       </View>
     );
@@ -68,4 +59,4 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
   }
-})
+});

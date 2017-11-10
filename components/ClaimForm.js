@@ -13,7 +13,7 @@ import {
 } from 'react-native';
 
 
-const db = SQLite.openDatabase({ name: 'sitedb' });
+const db = SQLite.openDatabase({ name: 'site.db' });
 
 export default class ClaimForm extends React.Component {
 
