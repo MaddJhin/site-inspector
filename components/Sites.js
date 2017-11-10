@@ -23,7 +23,7 @@ export default class Sites extends React.Component {
 
     this.state.db.transaction(tx => {
       tx.executeSql(
-        `select * from sites;`,
+        `select * from places;`,
         [],
         (_, { rows: { _array } }) => this.setState({ sites: _array })
       );

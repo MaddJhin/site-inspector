@@ -31,44 +31,44 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount() {
 
-    db.transaction(tx => {
-      tx.executeSql(
-        'create table if not exists items (id integer primary key not null, done int, value text);'
-      );
-    });
+    // db.transaction(tx => {
+    //   tx.executeSql(
+    //     'create table if not exists places (id integer primary key not null, name text);'
+    //   );
+    // });
 
     db.transaction(tx => {
-      tx.executeSql('CREATE TABLE IF NOT EXIST `places` ( \
-        `id` INT NOT NULL, \
-        `nombreAsegurado` VARCHAR(45) NOT NULL, \
-        `personaEntrevistada` VARCHAR(45) NOT NULL, \
-        `numeroPoliza` VARCHAR(45) NOT NULL, \
-        `numeroReclamacion` INT NOT NULL, \
-        `numeroContacto` INT NOT NULL, \
-        `fechaInspeccion` VARCHAR(45) NOT NULL, \
-        `dirreccionPropiedad` VARCHAR(45) NOT NULL, \
-        `tipoPropiedad` VARCHAR(45) NOT NULL, \
-        `tipoMaterial` VARCHAR(45) NOT NULL, \
-        `numeroHabitaciones` INT NOT NULL, \
-        `numeroBanos` INT NOT NULL, \
-        `sala` TINYINT NOT NULL, \
-        `comedor` TINYINT NOT NULL, \
-        `cocina` TINYINT NOT NULL, \
-        `terraza` TINYINT NOT NULL, \
-        `piesCuadrados` INT NOT NULL, \
-        `photoRef` VARCHAR(225) NOT NULL, \
-        PRIMARY KEY (`id`))')
+      tx.executeSql('CREATE TABLE IF NOT EXIST places \
+        (id INTEGER PRIMARY KEY NOT NULL, \
+        nombreAsegurado TEXT , \
+        personaEntrevistada TEXT , \
+        numeroPoliza TEXT , \
+        numeroReclamacion INT , \
+        numeroContacto INT , \
+        fechaInspeccion TEXT , \
+        dirreccionPropiedad TEXT , \
+        tipoPropiedad TEXT , \
+        tipoMaterial TEXT , \
+        numeroHabitaciones INT , \
+        numeroBanos INT , \
+        sala INT , \
+        comedor INT , \
+        cocina INT , \
+        terraza INT , \
+        piesCuadrados INT , \
+        photoRef TEXT )'
+      )
     });
 
     db.transaction(tx => {
       tx.executeSql('CREATE TABLE IF NOT EXIST `claims` ( \
-        `id` INT NOT NULL AUTO_INCREMENT, \
-        `descripcionDanos` VARCHAR(225) NOT NULL, \
-        `fotoRef` VARCHAR(225) NOT NULL, \
-        `unidadDanos` VARCHAR(45) NOT NULL, \
+        `id` INT NOT NULL, \
+        `descripcionDanos` TEXT NOT NULL, \
+        `fotoRef` TEXT NOT NULL, \
+        `unidadDanos` TEXT NOT NULL, \
         `cantidadDanos` INT NOT NULL, \
         `costoUnidad` INT NULL, \
-        `danoCubierto` TINYINT NOT NULL, \
+        `danoCubierto` INTT NOT NULL, \
         `sites_id` INT NOT NULL, \
         PRIMARY KEY (`id`, `sites_id`), \
         INDEX `fk_claims_sites_idx` (`sites_id` ASC), \
@@ -103,10 +103,13 @@ export default class HomeScreen extends React.Component {
 
     db.transaction(
       tx => {
-        tx.executeSql('insert into items (done, value) values (0, ?)', ["This is a test"]);
-        tx.executeSql('select * from items', [], (_, { rows }) =>
+        // tx.executeSql('insert into places (nombreAsegurado) values (?)', ["Test"]);
+        // tx.executeSql('insert into items (value) values (?)', ["Test"]);
+        
+        tx.executeSql('select * from places', [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
-        );
+        ),
+        (errr) => {console.log(errr)};
       }
     );
 
@@ -155,7 +158,7 @@ export default class HomeScreen extends React.Component {
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
             <Button
-              onPress={this._deleteSites}
+              onPress={this._dbOperations}
               title="Delete Sites"
               color="#228B22"
               accessibilityLabel="Input new site information" />
