@@ -34,14 +34,7 @@ export default class HomeScreen extends React.Component {
       // Test your DB was created
       console.log('Your DB was not created this time');
     }
-    this.makeTables;
   }
-
-  makeTables = () => {
-    
-  }
-
-
 
   _setModalVisibility = (visible) => {
     this.setState({ modalVisible: visible });
@@ -115,29 +108,21 @@ export default class HomeScreen extends React.Component {
         <View style={styles.tabBarInfoContainer}>
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
-            <Button onPress={this.toggleModal}
-              title="Add Site"
-              color="#228B22"
-              accessibilityLabel="Input new site information" />
-          </View>
-
-          <View>
-            {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
             <Button
               onPress={this._deleteSites}
               title="Delete Sites"
               color="#228B22"
               accessibilityLabel="Input new site information" />
           </View>
-
           <View>
-            <Button
-              onPress={this._dbOperations.bind(this)}
-              title="Temp"
+            {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
+            <Button onPress={this.toggleModal}
+              title="Add Site"
               color="#228B22"
               accessibilityLabel="Input new site information" />
           </View>
         </View>
+
       </View>
     );
   }
