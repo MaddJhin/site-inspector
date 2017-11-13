@@ -13,8 +13,6 @@ import {
 } from 'react-native';
 
 
-const db = SQLite.openDatabase({ name: 'site.db' });
-
 export default class ClaimForm extends React.Component {
 
   constructor(props) {
@@ -27,14 +25,15 @@ export default class ClaimForm extends React.Component {
       cantidadDanos: "",
       costoUnidad:"" ,
       danoCubierto: "",
-      sites_id: props.siteID
+      sites_id: this.props.siteID,
+      db: this.props.db
     };
 
   }
 
   addClaim() {
-    console.log("Current State", this.state);
-    db.transaction(
+    console.log("Current Claim Form State", this.state);
+    this.state.db.transaction(
       tx => {
         tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?, ?)', 
           [this.state.descripcionDanos, this.state.fotoRef, this.state.unidadDanos, this.state.cantidadDanos, this.state.danoCubierto, this.state.sites_id])

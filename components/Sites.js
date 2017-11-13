@@ -46,7 +46,7 @@ export default class Sites extends React.Component {
           <TouchableOpacity
             key={id}
             onPress={() => navigate("Site", 
-              { 
+              { db: this.state.db,
                 siteID: id,
                 owner: nombreAsegurado,
                 claimNumber: numeroReclamacion

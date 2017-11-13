@@ -61,22 +61,18 @@ export default class HomeScreen extends React.Component {
     });
 
     db.transaction(tx => {
-      tx.executeSql('CREATE TABLE IF NOT EXIST `claims` ( \
-        `id` INT NOT NULL, \
-        `descripcionDanos` TEXT NOT NULL, \
-        `fotoRef` TEXT NOT NULL, \
-        `unidadDanos` TEXT NOT NULL, \
-        `cantidadDanos` INT NOT NULL, \
-        `costoUnidad` INT NULL, \
-        `danoCubierto` INTT NOT NULL, \
-        `sites_id` INT NOT NULL, \
-        PRIMARY KEY (`id`, `sites_id`), \
-        INDEX `fk_claims_sites_idx` (`sites_id` ASC), \
-        CONSTRAINT `fk_claims_sites` \
-          FOREIGN KEY (`sites_id`) REFERENCES `site.db`.`sites` (`id`) \
-          ON DELETE NO ACTION \
-          ON UPDATE NO ACTION)'
-      )
+      tx.executeSql('CREATE TABLE IF NOT EXIST claims ( \
+        id INTEGER NOT NULL, \
+        descripcionDanos TEXT NOT NULL, \
+        fotoRef TEXT NOT NULL, \
+        unidadDanos TEXT NOT NULL, \
+        cantidadDanos INT NOT NULL, \
+        costoUnidad INT NULL, \
+        danoCubierto INT NOT NULL, \
+        sites_id INT NOT NULL, \
+          FOREIGN KEY (sites_id) REFERENCES sites (id`))'
+      ),
+      (err) => {console.log(err)}
     });
   }
 

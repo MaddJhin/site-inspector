@@ -18,6 +18,7 @@ import Claims from '../components/Claims';
 export default class SiteScreen extends React.Component {
 
   state = {
+    db: this.props.navigation.state.params.db,
     modalVisible: false,
     siteID: this.props.navigation.state.params.siteID
   }
@@ -26,8 +27,8 @@ export default class SiteScreen extends React.Component {
         title: `Claim: ${navigation.state.params.claimNumber}`,
   });
 
-  componentDidMount(){
-    console.log("State for Site: ", this.state)
+  componentDidMount() {
+    this.update();
   }
 
   _setModalVisibility = (visible) => {
@@ -39,12 +40,15 @@ export default class SiteScreen extends React.Component {
   }
 
   _deleteClaims = () => {
-    db.transaction(
+    this.state.db.transaction(
       tx => {
         tx.executeSql(`delete from claims where site_id = ?`),[this.state.siteID];
       },
-      null,
-      this.update
+      (err) => {console.log(err)},
+      () => {
+        console.log("Deleted Claims")
+        this.update;
+      }
     )
   }
 
@@ -67,6 +71,7 @@ export default class SiteScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <ClaimForm
+            db={this.state.db}
             toggleVisible={this.toggleModal}
             updateClaims={this.update.bind(this)}
           />
@@ -75,6 +80,7 @@ export default class SiteScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <ScrollView>
             <Claims style={styles.claims}
+              db={this.state.db}
               navigation={this.props.navigation}
               ref={item => (this.item = item)}
               siteID={this.state.siteID}
