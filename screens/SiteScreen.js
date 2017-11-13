@@ -15,10 +15,11 @@ import {
 import ClaimForm from '../components/ClaimForm';
 import Claims from '../components/Claims';
 
+const db = SQLite.openDatabase({ name: 'site.db' });
+
 export default class SiteScreen extends React.Component {
 
   state = {
-    db: this.props.navigation.state.params.db,
     modalVisible: false,
     siteID: this.props.navigation.state.params.siteID
   }
@@ -27,8 +28,19 @@ export default class SiteScreen extends React.Component {
         title: `Claim: ${navigation.state.params.claimNumber}`,
   });
 
-  componentDidMount() {
-    this.update();
+  componentDidMount() {    
+    db.transaction(tx => {
+      tx.executeSql('create table if not exists claims ( \
+        id INTEGER PRIMARY KEY NOT NULL, \
+        descripcionDanos TEXT NOT NULL, \
+        fotoRef TEXT NOT NULL, \
+        cantidadDanos TEXT NOT NULL, \
+        unidadDanos TEXT NOT NULL, \
+        danoCubierto INT NOT NULL, \
+        sites_id INT NOT NULL);');
+    });
+
+    console.log("Current Site ID", this.state.siteID);
   }
 
   _setModalVisibility = (visible) => {
@@ -40,7 +52,7 @@ export default class SiteScreen extends React.Component {
   }
 
   _deleteClaims = () => {
-    this.state.db.transaction(
+    db.transaction(
       tx => {
         tx.executeSql(`delete from claims where site_id = ?`),[this.state.siteID];
       },
@@ -71,7 +83,8 @@ export default class SiteScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <ClaimForm
-            db={this.state.db}
+            db={db}
+            siteID={this.state.siteID}
             toggleVisible={this.toggleModal}
             updateClaims={this.update.bind(this)}
           />
@@ -80,7 +93,7 @@ export default class SiteScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <ScrollView>
             <Claims style={styles.claims}
-              db={this.state.db}
+              db={db}
               navigation={this.props.navigation}
               ref={item => (this.item = item)}
               siteID={this.state.siteID}

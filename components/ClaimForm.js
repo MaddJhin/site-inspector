@@ -28,16 +28,15 @@ export default class ClaimForm extends React.Component {
       sites_id: this.props.siteID,
       db: this.props.db
     };
-
   }
 
   addClaim() {
     console.log("Current Claim Form State", this.state);
     this.state.db.transaction(
       tx => {
-        tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+        tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?)', 
           [this.state.descripcionDanos, this.state.fotoRef, this.state.unidadDanos, this.state.cantidadDanos, this.state.danoCubierto, this.state.sites_id])
-        tx.executeSql('select * from claims', [], (_, { rows }) =>
+        tx.executeSql('select * from claims where sites_id = ?', [this.state.sites_id], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
       },

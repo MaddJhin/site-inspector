@@ -19,7 +19,7 @@ export default class Sites extends React.Component {
   }
 
   update() {
-    console.log("Starting Update");
+    console.log("Updating Sites");
 
     this.state.db.transaction(tx => {
       tx.executeSql(

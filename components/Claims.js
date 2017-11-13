@@ -8,7 +8,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-export default class Sites extends React.Component {
+export default class Claims extends React.Component {
   state = {
     db: this.props.db,
     siteID: this.props.siteID,
@@ -20,17 +20,18 @@ export default class Sites extends React.Component {
   }
 
   update() {
-    console.log("Starting Update");
+    console.log("Updating Claims for site id", this.state.siteID);
 
-    this.state.db.transaction(tx => {
-      tx.executeSql(
-        `select * from claims where site_id = ?;`,
-        [this.state.siteID],
-        (_, { rows: { _array } }) => this.setState({ sites: _array })
-      );
-    });
-
-    console.log("Finished Updating");
+    this.state.db.transaction(
+      tx => {
+        tx.executeSql(
+          'select * from claims where sites_id = ?', 
+          [this.state.sites_id], 
+          (_, { rows }) => this.setState({ claims: _array })
+        );
+      },
+    );
+    console.log("Current Claims", this.state.claims);
   }
 
   render() {

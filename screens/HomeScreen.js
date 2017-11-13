@@ -31,12 +31,6 @@ export default class HomeScreen extends React.Component {
 
   componentDidMount() {
 
-    // db.transaction(tx => {
-    //   tx.executeSql(
-    //     'create table if not exists places (id integer primary key not null, name text);'
-    //   );
-    // });
-
     db.transaction(tx => {
       tx.executeSql('CREATE TABLE IF NOT EXIST places \
         (id INTEGER PRIMARY KEY NOT NULL, \
@@ -58,21 +52,6 @@ export default class HomeScreen extends React.Component {
         piesCuadrados INT , \
         photoRef TEXT )'
       )
-    });
-
-    db.transaction(tx => {
-      tx.executeSql('CREATE TABLE IF NOT EXIST claims ( \
-        id INTEGER NOT NULL, \
-        descripcionDanos TEXT NOT NULL, \
-        fotoRef TEXT NOT NULL, \
-        unidadDanos TEXT NOT NULL, \
-        cantidadDanos INT NOT NULL, \
-        costoUnidad INT NULL, \
-        danoCubierto INT NOT NULL, \
-        sites_id INT NOT NULL, \
-          FOREIGN KEY (sites_id) REFERENCES sites (id`))'
-      ),
-      (err) => {console.log(err)}
     });
   }
 
