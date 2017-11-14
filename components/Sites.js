@@ -52,7 +52,7 @@ export default class Sites extends React.Component {
                 claimNumber: numeroReclamacion
               })}
             style={styles.site}>
-            <Text>Owner: {nombreAsegurado}, claim: {numeroReclamacion}</Text>
+            <Text>Owner: {nombreAsegurado}, Claim: {numeroReclamacion}</Text>
           </TouchableOpacity>
         ))}
       </View>

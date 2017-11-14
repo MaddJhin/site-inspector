@@ -84,7 +84,7 @@ export default class HomeScreen extends React.Component {
         tx.executeSql('select * from places', [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         ),
-        (errr) => {console.log(errr)};
+        (err) => {console.log(err)};
       }
     );
 

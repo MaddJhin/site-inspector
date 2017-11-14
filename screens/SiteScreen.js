@@ -54,11 +54,11 @@ export default class SiteScreen extends React.Component {
   _deleteClaims = () => {
     db.transaction(
       tx => {
-        tx.executeSql(`delete from claims where site_id = ?`),[this.state.siteID];
+        tx.executeSql('select * from claims'),[];
       },
       (err) => {console.log(err)},
       () => {
-        console.log("Deleted Claims")
+        console.log("All Claims")
         this.update;
       }
     )
