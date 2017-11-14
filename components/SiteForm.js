@@ -9,7 +9,8 @@ import {
   ScrollView,
   Button,
   TextInput,
-  Picker
+  Picker, 
+  CheckBox
 } from 'react-native';
 
 export default class SiteForm extends React.Component {
@@ -61,10 +62,10 @@ export default class SiteForm extends React.Component {
             terraza, \
             piesCuadrados, \
             photoRef) \
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
           [
-            this.state.nombreAsegurado, 
-            this.state.personaEntrevistada, 
+            this.state.nombreAsegurado,
+            this.state.personaEntrevistada,
             this.state.numeroPoliza,
             this.state.numeroReclamacion,
             this.state.numeroContacto,
@@ -97,70 +98,96 @@ export default class SiteForm extends React.Component {
       <View keyboardShouldPersistTaps="always" style={styles.container}>
 
         <View style={styles.inputGroup}>
+          <Text style={styles.inputTitle}>Informaction Contacto</Text>
           <TextInput
-            style={{ height: 40 }}
-            placeholder="Nombre Asegurado"
+            style={styles.inputField}
+            placeholder="Nombre de Persona Asegurada"
             onChangeText={(nombreAsegurado) => this.setState({ nombreAsegurado })}
           />
-        </View>
 
-        <View style={styles.inputGroup}>
           <TextInput
-            style={{ height: 40 }}
+            style={styles.inputField}
+            placeholder="Nombre de Persona Entrevistada"
+            onChangeText={(personaEntrevistada) => this.setState({ personaEntrevistada })}
+          />
+
+          <TextInput
+            style={styles.inputField}
             placeholder="Numero de Poliza"
             onChangeText={(numeroPoliza) => this.setState({ numeroPoliza })}
           />
-        </View>
 
-        <View style={styles.inputGroup}>
           <TextInput
-            style={{ height: 40 }}
+            style={styles.inputField}
             placeholder="Numero de Reclamacion"
             onChangeText={(numeroReclamacion) => this.setState({ numeroReclamacion })}
           />
+
+          <TextInput
+            style={styles.inputField}
+            placeholder="Numero de Contacto"
+            onChangeText={(numeroContacto) => this.setState({ numeroContacto })}
+          />
+
         </View>
 
         <View style={styles.inputGroup}>
-          <Text>Address</Text>
-          <TextInput
-            style={{ height: 40 }}
-            placeholder="Address One"
-            onChangeText={(addressOne) => this.setState({ addressOne })}
-          />
-          <TextInput
-            style={{ height: 40 }}
-            placeholder="Address Two"
-            onChangeText={(addressTwo) => this.setState({ addressTwo })}
-          />
-        </View>
+          <Text style={styles.inputTitle}>Informacion de la Propiedad</Text>
 
-        <View style={styles.inputGroup}>
           <TextInput
-            style={{ height: 40 }}
-            placeholder="Contact Phone Number"
-            onChangeText={(phoneNumber) => this.setState({ phoneNumber })}
+            style={styles.inputField}
+            placeholder="Direccion"
+            onChangeText={(dirreccionPropiedad) => this.setState({ dirreccionPropiedad })}
           />
-        </View>
 
-        <View style={styles.inputGroup}>
           <TextInput
-            style={{ height: 40 }}
-            placeholder="Site Measurements"
-            onChangeText={(squareFeet) => this.setState({ squareFeet })}
+            style={styles.inputField}
+            placeholder="Tamaño en Pies Cuadraros"
+            onChangeText={(piesCuadrados) => this.setState({ piesCuadrados })}
           />
-        </View>
 
+          <TextInput
+            style={styles.inputField}
+            placeholder="Numero Habitaciones"
+            onChangeText={(numeroHabitaciones) => this.setState({ numeroHabitaciones })}
+          />
 
-        <View style={styles.inputGroup}>
-          <Text> Material Type </Text>
+          <TextInput
+            style={styles.inputField}
+            placeholder="Numero Baños"
+            onChangeText={(numeroBanos) => this.setState({ numeroBanos })}
+          />
+
+          <Text> Cuartos Existentes </Text>
+          <Text>Sala</Text>
+          <CheckBox
+            style={{position: inline}}
+            value={false}
+            onValueChange={(value) => this.setState({ sala: value })}>
+          </CheckBox>
+
+          <Text> Material de Construccion </Text>
           <Picker
             mode="dialog"
-            selectedValue={this.state.materialType}
-            onValueChange={(itemValue, itemIndex) => this.setState({ materialType: itemValue })}>
-            <Picker.Item label="Concrete" value="concrete" />
-            <Picker.Item label="Wood" value="wood" />
-            <Picker.Item label="Mixed" value="mixed" />
+            selectedValue={this.state.tipoMaterial}
+            onValueChange={(itemValue, itemIndex) => this.setState({ tipoMaterial: itemValue })}>
+            <Picker.Item label="<Selecione Uno>" value="" />
+            <Picker.Item label="Concreto" value="concreto" />
+            <Picker.Item label="Madera" value="madera" />
+            <Picker.Item label="Mixto" value="mixto" />
           </Picker>
+
+          <Text> Tipo de Propiedad </Text>
+          <Picker
+            mode="dialog"
+            selectedValue={this.state.tipoPropiedad}
+            onValueChange={(itemValue, itemIndex) => this.setState({ tipoPropiedad: itemValue })}>
+            <Picker.Item label="<Selecione Uno>" value="" />
+            <Picker.Item label="Terrera" value="terrera" />
+            <Picker.Item label="Dos Plantas" value="dos planta" />
+            <Picker.Item label="Apartamento" value="apartamento" />
+          </Picker>
+
         </View>
 
         <View style={styles.btnAdd}>
@@ -210,6 +237,6 @@ const styles = StyleSheet.create({
 
   },
   inputField: {
-
+    height: 40
   }
 });
