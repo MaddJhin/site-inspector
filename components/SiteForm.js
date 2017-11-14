@@ -18,8 +18,22 @@ export default class SiteForm extends React.Component {
     super(props);
     this.state = {
       nombreAsegurado: '',
+      personaEntrevistada: '',
       numeroPoliza: '',
-      numeroReclamacion: '',
+      numeroReclamacion: 0,
+      numeroContacto: 0,
+      fechaInspeccion: '',
+      dirreccionPropiedad: '',
+      tipoPropiedad: '',
+      tipoMaterial: '',
+      numeroHabitaciones: 0,
+      numeroBanos: 0,
+      sala: 0,
+      comedor: 0,
+      cocina: 0,
+      terraza: 0,
+      piesCuadrados: 0,
+      photoRef: '',
       db: this.props.db
     };
 
@@ -29,7 +43,44 @@ export default class SiteForm extends React.Component {
     console.log("Site Form DB", this.state.db);
     this.state.db.transaction(
       tx => {
-        tx.executeSql('INSERT INTO places (nombreAsegurado, numeroPoliza, numeroReclamacion) VALUES (?, ?, ?)', [this.state.nombreAsegurado, this.state.numeroPoliza, this.state.numeroReclamacion])
+        tx.executeSql('INSERT INTO places ( \
+            nombreAsegurado, \
+            personaEntrevistada, \
+            numeroPoliza, \
+            numeroReclamacion, \
+            numeroContacto, \
+            fechaInspeccion, \
+            dirreccionPropiedad, \
+            tipoPropiedad,  \
+            tipoMaterial, \
+            numeroHabitaciones, \
+            numeroBanos, \
+            sala, \
+            comedor, \
+            cocina, \
+            terraza, \
+            piesCuadrados, \
+            photoRef) \
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', 
+          [
+            this.state.nombreAsegurado, 
+            this.state.personaEntrevistada, 
+            this.state.numeroPoliza,
+            this.state.numeroReclamacion,
+            this.state.numeroContacto,
+            this.state.fechaInspeccion,
+            this.state.dirreccionPropiedad,
+            this.state.tipoPropiedad,
+            this.state.tipoMaterial,
+            this.state.numeroHabitaciones,
+            this.state.numeroBanos,
+            this.state.sala,
+            this.state.comedor,
+            this.state.cocina,
+            this.state.terraza,
+            this.state.piesCuadrados,
+            this.state.photoRef
+          ])
         tx.executeSql('select * from places', [], (_, { rows }) =>
           console.log(JSON.stringify(rows))
         );
