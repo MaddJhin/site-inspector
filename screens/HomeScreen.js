@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
       },
     }),
     backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
+    paddingVertical: 10,
     flexWrap: 'wrap',
     alignItems: 'flex-start',
     flexDirection: 'row',
