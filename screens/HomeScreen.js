@@ -66,8 +66,9 @@ export default class HomeScreen extends React.Component {
   _deleteSites = () => {
     db.transaction(
       tx => {
-        tx.executeSql(`delete from places`);
-      },
+        tx.executeSql('SELECT * FROM sqlite_master', [this.state.sites_id], (_, { rows }) =>
+        console.log(JSON.stringify(rows))
+      )},
       null,
       this.update
     )

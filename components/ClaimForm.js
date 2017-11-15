@@ -24,7 +24,7 @@ export default class ClaimForm extends React.Component {
       unidadDanos: "",
       cantidadDanos: "",
       costoUnidad:"" ,
-      danoCubierto: "",
+      danoCubierto: false,
       sites_id: this.props.siteID,
       db: this.props.db
     };
@@ -76,8 +76,6 @@ export default class ClaimForm extends React.Component {
             color="#228B22"
             accessibilityLabel="Cancel New Claim" />
         </View>
-
-
       </View>
     )
   }
