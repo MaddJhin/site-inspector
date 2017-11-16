@@ -12,7 +12,9 @@ import {
   Picker,
   Platform
 } from 'react-native';
+
 import { CheckBox } from 'react-native-elements';
+import styles from '../css/styles';
 
 export default class SiteForm extends React.Component {
 
@@ -210,7 +212,7 @@ export default class SiteForm extends React.Component {
           </View>
         </ScrollView>
 
-        <View style={styles.tabBarInfoContainer}>
+        <View style={styles.footerBar}>
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
             <Button
@@ -232,44 +234,3 @@ export default class SiteForm extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-  inputGroup: {
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  inputTitle: {
-
-  },
-  inputField: {
-    height: 40
-  },
-  inlineWrapper: {
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-  },
-  tabBarInfoContainer: {
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 10,
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  }
-});

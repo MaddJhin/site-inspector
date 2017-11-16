@@ -12,6 +12,7 @@ import {
   Picker
 } from 'react-native';
 
+import styles from '../css/styles';
 
 export default class ClaimForm extends React.Component {
 
@@ -80,30 +81,3 @@ export default class ClaimForm extends React.Component {
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    position: 'relative',
-  },
-  btnAdd: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10
-  },
-  btnCancel: {
-    position: 'absolute',
-    left: 10,
-    bottom: 10
-  },
-  inputGroup: {
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  inputTitle: {
-
-  },
-  inputField: {
-
-  }
-});

@@ -12,6 +12,8 @@ import {
   TouchableHighlight
 } from 'react-native';
 
+import styles from '../css/styles';
+
 // Import Icon Library
 import { Ionicons } from '@expo/vector-icons';
 import SiteForm from '../components/SiteForm';
@@ -122,7 +124,7 @@ export default class HomeScreen extends React.Component {
 
         <View style={{ flex: 1 }}>
           <ScrollView>
-            <Sites style={styles.sites}
+            <Sites style={styles.entries}
               db={db}
               navigation={this.props.navigation}
               ref={place => (this.place = place)}
@@ -130,7 +132,7 @@ export default class HomeScreen extends React.Component {
           </ScrollView>
         </View>
 
-        <View style={styles.tabBarInfoContainer}>
+        <View style={styles.footerBar}>
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
             <Button
@@ -157,48 +159,3 @@ export default class HomeScreen extends React.Component {
     this.place && this.place.update();
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  btnAdd: {
-    position: 'absolute',
-    right: 10,
-    bottom: 10
-  },
-  btnDelete: {
-    position: 'absolute',
-    left: 10,
-    bottom: 10
-  },
-  btnNuke: {
-    position: 'absolute',
-    alignSelf: 'center',
-    bottom: 10
-  },
-  sites: {
-    flex: 1,
-    alignSelf: 'stretch',
-  },
-  tabBarInfoContainer: {
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 10,
-    flexWrap: 'wrap',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  }
-});

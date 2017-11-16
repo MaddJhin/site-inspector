@@ -8,6 +8,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
+import styles from '../css/styles';
+
 export default class Sites extends React.Component {
   state = {
     db: this.props.db,
@@ -51,7 +53,7 @@ export default class Sites extends React.Component {
                 owner: nombreAsegurado,
                 claimNumber: numeroReclamacion
               })}
-            style={styles.site}>
+            style={styles.entry}>
             <Text>Owner: {nombreAsegurado}, Claim: {numeroReclamacion}</Text>
           </TouchableOpacity>
         ))}
@@ -59,12 +61,3 @@ export default class Sites extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  site: {
-    padding: 5,
-    backgroundColor: 'white',
-    borderColor: 'black',
-    borderWidth: 1,
-  }
-})
