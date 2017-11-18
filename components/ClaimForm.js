@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 
 import styles from '../css/styles';
+import Database from '../components/DatabaseManager';
 
 export default class ClaimForm extends React.Component {
 
@@ -33,7 +34,7 @@ export default class ClaimForm extends React.Component {
 
   addClaim() {
     console.log("Current Claim Form State", this.state);
-    this.state.db.transaction(
+    Database.transaction(
       tx => {
         tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?)', 
           [this.state.descripcionDanos, this.state.fotoRef, this.state.unidadDanos, this.state.cantidadDanos, this.state.danoCubierto, this.state.sites_id])

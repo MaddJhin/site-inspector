@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import styles from '../css/styles';
+import Database from '../components/DatabaseManager';
 
 export default class Sites extends React.Component {
   state = {
@@ -23,7 +24,7 @@ export default class Sites extends React.Component {
   update() {
     console.log("Updating Sites");
 
-    this.state.db.transaction(tx => {
+    Database.transaction(tx => {
       tx.executeSql(
         `select * from places;`,
         [],

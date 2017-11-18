@@ -17,7 +17,7 @@ import styles from '../css/styles';
 import ClaimForm from '../components/ClaimForm';
 import Claims from '../components/Claims';
 
-const db = SQLite.openDatabase({ name: 'site.db' });
+import Database from '../components/DatabaseManager';
 
 export default class SiteScreen extends React.Component {
 
@@ -31,7 +31,7 @@ export default class SiteScreen extends React.Component {
   });
 
   componentDidMount() {    
-    db.transaction(tx => {
+    Database.transaction(tx => {
       tx.executeSql('create table if not exists claims ( \
         id INTEGER PRIMARY KEY NOT NULL, \
         descripcionDanos TEXT NOT NULL, \
@@ -54,7 +54,7 @@ export default class SiteScreen extends React.Component {
   }
 
   _deleteClaims = () => {
-    db.transaction(
+    Database.transaction(
       tx => {
         tx.executeSql('select * from claims'),[];
       },
@@ -64,6 +64,8 @@ export default class SiteScreen extends React.Component {
         this.update;
       }
     )
+    // console.log(testDB.getUserID());
+
   }
 
   render() {
@@ -85,7 +87,6 @@ export default class SiteScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <ClaimForm
-            db={db}
             siteID={this.state.siteID}
             toggleVisible={this.toggleModal}
             updateClaims={this.update.bind(this)}
@@ -95,7 +96,6 @@ export default class SiteScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <ScrollView>
             <Claims style={styles.entries}
-              db={db}
               navigation={this.props.navigation}
               ref={item => (this.item = item)}
               siteID={this.state.siteID}

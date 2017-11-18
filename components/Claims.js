@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import styles from '../css/styles';
+import Database from '../components/DatabaseManager';
 
 export default class Claims extends React.Component {
   state = {
@@ -24,7 +25,7 @@ export default class Claims extends React.Component {
   update() {
     console.log("Updating Claims for site id", this.state.siteID);
 
-    this.state.db.transaction(tx => {
+    Database.transaction(tx => {
       tx.executeSql(
         'select * from claims where sites_id = ?', 
         [this.state.siteID], 

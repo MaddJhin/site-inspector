@@ -18,8 +18,7 @@ import styles from '../css/styles';
 import { Ionicons } from '@expo/vector-icons';
 import SiteForm from '../components/SiteForm';
 import Sites from '../components/Sites';
-
-const db = SQLite.openDatabase({ name: 'site.db' });
+import Database from '../components/DatabaseManager';
 
 export default class HomeScreen extends React.Component {
 
@@ -32,29 +31,8 @@ export default class HomeScreen extends React.Component {
   };
 
   componentDidMount() {
-
-    db.transaction(tx => {
-      tx.executeSql('CREATE TABLE IF NOT EXIST places \
-        (id INTEGER PRIMARY KEY NOT NULL, \
-        nombreAsegurado TEXT , \
-        personaEntrevistada TEXT , \
-        numeroPoliza TEXT , \
-        numeroReclamacion INT , \
-        numeroContacto INT , \
-        fechaInspeccion TEXT , \
-        dirreccionPropiedad TEXT , \
-        tipoPropiedad TEXT , \
-        tipoMaterial TEXT , \
-        numeroHabitaciones INT , \
-        numeroBanos INT , \
-        sala INT , \
-        comedor INT , \
-        cocina INT , \
-        terraza INT , \
-        piesCuadrados INT , \
-        photoRef TEXT )'
-      )
-    });
+    Database.createTables();
+    
   }
 
   _setModalVisibility = (visible) => {
@@ -66,40 +44,14 @@ export default class HomeScreen extends React.Component {
   }
 
   _deleteSites = () => {
-    db.transaction(
-      tx => {
-        tx.executeSql('SELECT * FROM sqlite_master', [this.state.sites_id], (_, { rows }) =>
-        console.log(JSON.stringify(rows))
-      )},
-      null,
-      this.update
-    )
-  }
+    console.log("Deleting Sites")
+    Database._devEmptySites();
+    this.update();
+  } 
 
   _dbOperations() {
-    console.log("Starting DB Operation");
 
-    db.transaction(
-      tx => {
-        // tx.executeSql('insert into places (nombreAsegurado) values (?)', ["Test"]);
-        // tx.executeSql('insert into items (value) values (?)', ["Test"]);
-        
-        tx.executeSql('select * from places', [], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        ),
-        (err) => {console.log(err)};
-      }
-    );
-
-    console.log("DB Operation Done");
-  }
-
-  errorCallback = (err) => {
-    console.log("Transaction Error", err)
-  }
-
-  successCallback = () => {
-    console.log("Transaction Success")
+    
   }
 
   render() {
@@ -116,7 +68,6 @@ export default class HomeScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <SiteForm
-            db={db}
             toggleVisible={this.toggleModal}
             updateSites={this.update.bind(this)}
           />
@@ -125,7 +76,6 @@ export default class HomeScreen extends React.Component {
         <View style={{ flex: 1 }}>
           <ScrollView>
             <Sites style={styles.entries}
-              db={db}
               navigation={this.props.navigation}
               ref={place => (this.place = place)}
             />
