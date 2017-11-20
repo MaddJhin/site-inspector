@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 
 import styles from '../css/styles';
-import Database from '../components/DatabaseManager';
+import Database from '../components/Database';
 
 export default class Sites extends React.Component {
   state = {
@@ -24,13 +24,17 @@ export default class Sites extends React.Component {
   update() {
     console.log("Updating Sites");
 
-    Database.transaction(tx => {
-      tx.executeSql(
-        `select * from places;`,
-        [],
-        (_, { rows: { _array } }) => this.setState({ sites: _array })
-      );
-    });
+    const currentSites = Database.findSites();
+    console.log("Database function", Database.findSites());
+
+    // this.setState({ sites: currentSites});
+    // Database.transaction(tx => {
+    //   tx.executeSql(
+    //     `select * from places;`,
+    //     [],
+    //     (_, { rows: { _array } }) => this.setState({ sites: _array })
+    //   );
+    // });
 
     console.log("Finished Updating");
   }

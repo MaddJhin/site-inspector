@@ -43,26 +43,54 @@ export default class SiteForm extends React.Component {
   }
 
   addSite() {
-    Database.addSite(this.state.nombreAsegurado,
-      this.state.personaEntrevistada,
-      this.state.numeroPoliza,
-      this.state.numeroReclamacion,
-      this.state.numeroContacto,
-      this.state.fechaInspeccion,
-      this.state.dirreccionPropiedad,
-      this.state.tipoPropiedad,
-      this.state.tipoMaterial,
-      this.state.numeroHabitaciones,
-      this.state.numeroBanos,
-      this.state.sala,
-      this.state.comedor,
-      this.state.cocina,
-      this.state.terraza,
-      this.state.piesCuadrados,
-      this.state.photoRef
+    console.log("Site Form DB", this.state.db);
+    Database.transaction(
+      tx => {
+        tx.executeSql('INSERT INTO places ( \
+            nombreAsegurado, \
+            personaEntrevistada, \
+            numeroPoliza, \
+            numeroReclamacion, \
+            numeroContacto, \
+            fechaInspeccion, \
+            dirreccionPropiedad, \
+            tipoPropiedad,  \
+            tipoMaterial, \
+            numeroHabitaciones, \
+            numeroBanos, \
+            sala, \
+            comedor, \
+            cocina, \
+            terraza, \
+            piesCuadrados, \
+            photoRef) \
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+          [
+            this.state.nombreAsegurado,
+            this.state.personaEntrevistada,
+            this.state.numeroPoliza,
+            this.state.numeroReclamacion,
+            this.state.numeroContacto,
+            this.state.fechaInspeccion,
+            this.state.dirreccionPropiedad,
+            this.state.tipoPropiedad,
+            this.state.tipoMaterial,
+            this.state.numeroHabitaciones,
+            this.state.numeroBanos,
+            this.state.sala,
+            this.state.comedor,
+            this.state.cocina,
+            this.state.terraza,
+            this.state.piesCuadrados,
+            this.state.photoRef
+          ])
+        tx.executeSql('select * from places', [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      (err) => { console.log("Addition Failed Message", err) },
+      this.props.updateSites.bind(this)
     );
-
-    this.props.updateSites.bind(this)
     console.log("Closing Modal");
     this.props.toggleVisible();
   }

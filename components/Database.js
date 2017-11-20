@@ -1,62 +1,18 @@
-// Simple Export
-// ================================================================
 import { SQLite } from 'expo';
-
-// module.exports = SQLite.openDatabase({ name: 'site.db' });
-
-
-// Simple instance
-// ================================================================
-// export default class DatabaseManager {
-
-//   static myInstance = null;
-
-//   _userID = "";
-
-
-//   /**
-//    * @returns {DatabaseManager}
-//    */
-//   static getInstance() {
-//     if (this.myInstance == null) {
-//       this.myInstance = new DatabaseManager();
-//     }
-
-//     return myInstance;
-//   }
-
-//   getUserID() {
-//     return this._userID;
-//   }
-
-//   setUserID(id) {
-//     this._userID = id;
-//   }
-// }
-
-
-// Singleton Approach
-// ================================================================
-// const singleton = Symbol();
-// const singletonEnforcer = Symbol()
 
 const db = SQLite.openDatabase({ name: 'site.db' });
 
-export default class DatabaseManager {
+class Database {
+  constructor(){
+   if(! Database.instance){
+     this._data = [];
+     Database.instance = this;
+   }
 
-  // _userID = "";
+   return Database.instance;
+  }
 
-  // constructor(enforcer) {
-  //   if(enforcer != singletonEnforcer) throw "Cannot construct singleton";
-  // }
-
-  // static get instance() {
-  //   if(!this[singleton]) {
-  //     this[singleton] = new DatabaseManager(singletonEnforcer);
-  //   }
-  //   return this[singleton];
-  // }
-
+  //rest is the same code as preceding example
   createTables(){
     db.transaction(tx => {
       tx.executeSql('CREATE TABLE IF NOT EXIST sites \
@@ -138,12 +94,11 @@ export default class DatabaseManager {
   }
 
   findSites() {
+    console.log("Finding all Sites");
     db.transaction(tx => {
-      tx.executeSql(
-        `select * from places;`,
-        [],
-        (_, { rows: { _array } }) => {return { sites: _array }}
-      );
+      tx.executeSql('select * from places', [], (_, { rows }) =>
+        console.log(JSON.stringify(rows))
+      )
     });
   }
 
@@ -159,4 +114,10 @@ export default class DatabaseManager {
       )}
     )
   }
+
 }
+
+const instance = new Database();
+Object.freeze(instance);
+
+export default instance;
