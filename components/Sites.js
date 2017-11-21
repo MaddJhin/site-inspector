@@ -1,5 +1,6 @@
-import Expo, { SQLite } from 'expo';
 import React from 'react';
+import styles from '../css/styles';
+
 import {
   StyleSheet,
   Text,
@@ -8,12 +9,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import styles from '../css/styles';
-import Database from '../components/Database';
-
 export default class Sites extends React.Component {
   state = {
-    db: this.props.db,
     sites: [],
   };
 
@@ -22,21 +19,9 @@ export default class Sites extends React.Component {
   }
 
   update() {
-    console.log("Updating Sites");
+    console.log("Sites Component Updating Sites");
 
-    const currentSites = Database.findSites();
-    console.log("Database function", Database.findSites());
-
-    // this.setState({ sites: currentSites});
-    // Database.transaction(tx => {
-    //   tx.executeSql(
-    //     `select * from places;`,
-    //     [],
-    //     (_, { rows: { _array } }) => this.setState({ sites: _array })
-    //   );
-    // });
-
-    console.log("Finished Updating");
+    console.log("Sites Component Finished Updating");
   }
 
   render() {
@@ -53,8 +38,7 @@ export default class Sites extends React.Component {
           <TouchableOpacity
             key={id}
             onPress={() => navigate("Site", 
-              { db: this.state.db,
-                siteID: id,
+              { siteID: id,
                 owner: nombreAsegurado,
                 claimNumber: numeroReclamacion
               })}

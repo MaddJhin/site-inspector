@@ -1,5 +1,5 @@
 import React from 'react';
-import Expo, { SQLite } from 'expo';
+import styles from '../css/styles';
 
 import {
   AppRegistry,
@@ -11,9 +11,6 @@ import {
   TextInput,
   Picker
 } from 'react-native';
-
-import styles from '../css/styles';
-import Database from '../components/DatabaseManager';
 
 export default class ClaimForm extends React.Component {
 
@@ -28,23 +25,22 @@ export default class ClaimForm extends React.Component {
       costoUnidad:"" ,
       danoCubierto: false,
       sites_id: this.props.siteID,
-      db: this.props.db
     };
   }
 
   addClaim() {
     console.log("Current Claim Form State", this.state);
-    Database.transaction(
-      tx => {
-        tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?)', 
-          [this.state.descripcionDanos, this.state.fotoRef, this.state.unidadDanos, this.state.cantidadDanos, this.state.danoCubierto, this.state.sites_id])
-        tx.executeSql('select * from claims where sites_id = ?', [this.state.sites_id], (_, { rows }) =>
-          console.log(JSON.stringify(rows))
-        );
-      },
-      (err) => { console.log("Addition Failed Message", err) },
-      this.props.updateClaims.bind(this)
-    );
+    // Database.transaction(
+    //   tx => {
+    //     tx.executeSql('INSERT INTO claims (descripcionDanos, fotoRef, unidadDanos, cantidadDanos, danoCubierto, sites_id) VALUES (?, ?, ?, ?, ?, ?)', 
+    //       [this.state.descripcionDanos, this.state.fotoRef, this.state.unidadDanos, this.state.cantidadDanos, this.state.danoCubierto, this.state.sites_id])
+    //     tx.executeSql('select * from claims where sites_id = ?', [this.state.sites_id], (_, { rows }) =>
+    //       console.log(JSON.stringify(rows))
+    //     );
+    //   },
+    //   (err) => { console.log("Addition Failed Message", err) },
+    //   this.props.updateClaims.bind(this)
+    // );
     console.log("Closing Modal");
     this.props.toggleVisible();
   }

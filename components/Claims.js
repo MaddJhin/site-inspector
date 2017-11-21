@@ -1,5 +1,6 @@
-import Expo, { SQLite } from 'expo';
 import React from 'react';
+import styles from '../css/styles';
+
 import {
   StyleSheet,
   Text,
@@ -8,12 +9,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import styles from '../css/styles';
-import Database from '../components/DatabaseManager';
-
 export default class Claims extends React.Component {
   state = {
-    db: this.props.db,
     siteID: this.props.siteID,
     claims: [],
   };
@@ -24,16 +21,6 @@ export default class Claims extends React.Component {
 
   update() {
     console.log("Updating Claims for site id", this.state.siteID);
-
-    Database.transaction(tx => {
-      tx.executeSql(
-        'select * from claims where sites_id = ?', 
-        [this.state.siteID], 
-        (_, { rows: { _array } }) => this.setState({ claims: _array }),
-        (err) => {console.log(err)},
-        () => {console.log("Current Claims", this.state.claims)}
-      );
-    });
 
   }
 

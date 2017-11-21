@@ -3,6 +3,11 @@ import { SQLite } from 'expo';
 const db = SQLite.openDatabase({ name: 'site.db' });
 
 class Database {
+
+  state = {
+    sites: []
+  }
+
   constructor(){
    if(! Database.instance){
      this._data = [];
@@ -10,6 +15,10 @@ class Database {
    }
 
    return Database.instance;
+  }
+
+  componentDidMount(){
+    console.log("Database Component db", db);
   }
 
   //rest is the same code as preceding example
@@ -34,8 +43,10 @@ class Database {
         terraza INT , \
         piesCuadrados INT , \
         photoRef TEXT )'
-      )
-    });
+        )
+      },
+      (err) => console.log(err)
+    );
   }
 
   addSite( nombreAsegurado, personaEntrevistada, numeroPoliza, numeroReclamacion, 
@@ -95,11 +106,19 @@ class Database {
 
   findSites() {
     console.log("Finding all Sites");
-    db.transaction(tx => {
-      tx.executeSql('select * from places', [], (_, { rows }) =>
-        console.log(JSON.stringify(rows))
-      )
-    });
+    db.transaction(tx => 
+      {
+        tx.executeSql(
+          `select * from places;`,
+          [],
+          (_, { rows: { _array } }) => this.setState({ sites: _array })
+        )
+      },
+      (err) => console.log(err),
+      () => console.log("Database Sites",this.state.sites)
+    );
+
+    console.log(this.state.sites);
   }
 
   _devDeleteTables(){
@@ -115,9 +134,25 @@ class Database {
     )
   }
 
+  _devAdd() {
+    db.transaction(
+      tx => {
+        tx.executeSql('insert into places (nombreAsegurado, numeroPoliza, numeroReclamacion) values (Test Name, 0001, 11111)', []);
+        tx.executeSql('select * from places', [], (_, { rows }) =>
+          console.log(JSON.stringify(rows))
+        );
+      },
+      (err) => console.log(err),
+      this._ok
+    );
+
+    console.log("Database Finished Test Adding")
+  }
+
+  _devTest(){
+    console.log("Database db ")
+  }
+
 }
 
-const instance = new Database();
-Object.freeze(instance);
-
-export default instance;
+export default Database;
