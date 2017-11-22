@@ -19,11 +19,6 @@ export default class Claims extends React.Component {
     this.update();
   }
 
-  update() {
-    console.log("Updating Claims for site id", this.state.siteID);
-
-  }
-
   render() {
     const { navigate } = this.props.navigation;    
     const { claims } = this.state;
@@ -43,5 +38,10 @@ export default class Claims extends React.Component {
         ))}
       </View>
     );
+  }
+
+  update() {
+    console.log("Updating Claims for site id", this.state.siteID);
+
   }
 }

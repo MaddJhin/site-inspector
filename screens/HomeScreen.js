@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
     this.setState({ modalVisible: visible });
   };
 
-  toggleModal = () => {
+  _toggleModal = () => {
     this._setModalVisibility(!this.state.modalVisible);
   }
 
@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
           onRequestClose={() => { console.log("Modal has been closed.") }}
         >
           <SiteForm
-            toggleVisible={this.toggleModal}
+            toggleVisible={this._toggleModal}
             updateSites={this.update.bind(this)}
           />
         </Modal>
@@ -92,7 +92,7 @@ export default class HomeScreen extends React.Component {
           </View>
           <View>
             {/* <Ionicons name="md-add-circle" size={64} color="green" /> */}
-            <Button onPress={this.toggleModal}
+            <Button onPress={this._toggleModal}
               title="Add Site"
               color="#228B22"
               accessibilityLabel="Input new site information" />
@@ -103,7 +103,7 @@ export default class HomeScreen extends React.Component {
     );
   }
 
-  update = () => {
+  update() {
     console.log("Homescreen updating")
     this.place && this.place.update();
   }
